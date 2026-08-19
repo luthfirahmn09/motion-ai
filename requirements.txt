@@ -1,0 +1,29 @@
+# Bot & Web
+python-telegram-bot==21.6
+fastapi==0.111.0
+uvicorn==0.30.1
+
+# Queue
+celery==5.3.6
+flower==2.0.1
+redis==5.0.1
+
+# Database
+sqlalchemy==2.0.30
+asyncpg==0.29.0
+alembic==1.13.1
+psycopg2-binary==2.9.9
+
+# AI Providers
+PyJWT==2.8.0
+httpx==0.27.0
+
+# File handling
+aiofiles==23.2.1
+Pillow==10.3.0
+python-magic==0.4.27
+
+# Utils
+python-dotenv==1.0.0
+loguru==0.7.2
+pydantic==2.7.0

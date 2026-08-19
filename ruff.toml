@@ -1,0 +1,14 @@
+line-length = 120
+
+[lint]
+select = ["E", "F", "W"]
+ignore = [
+    "E501",  # line too long — handled by formatter
+    "F401",  # unused imports — common in __init__.py re-exports
+]
+
+exclude = [
+    "alembic/versions/",
+    ".venv",
+    "venv",
+]

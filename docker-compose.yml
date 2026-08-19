@@ -1,0 +1,77 @@
+version: "3.9"
+
+services:
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+
+  bot:
+    build: .
+    image: ghcr.io/luthfirahmn09/motion-ai:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - TEMP_DIR=/app/storage
+    volumes:
+      - ./storage:/app/storage
+      - ./logs:/app/logs
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - default
+      - www_default
+    command: python -m bot.main
+
+  worker:
+    build: .
+    image: ghcr.io/luthfirahmn09/motion-ai:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - TEMP_DIR=/app/storage
+    volumes:
+      - ./storage:/app/storage
+      - ./logs:/app/logs
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - default
+      - www_default
+    command: >
+      celery -A worker.celery_app worker
+      --loglevel=info
+      --concurrency=4
+      --queues=motion_transfer
+
+  flower:
+    build: .
+    image: ghcr.io/luthfirahmn09/motion-ai:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+    networks:
+      - default
+      - www_default
+    command: celery -A worker.celery_app flower --port=5555
+
+volumes:
+  redis_data:
+
+networks:
+  www_default:
+    external: true

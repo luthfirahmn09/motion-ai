@@ -1,0 +1,67 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+secrets/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+pip-log.txt
+.python-version
+*.coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local storage (runtime data, not code)
+storage/uploads/
+storage/outputs/
+storage/tmp/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Alembic auto-generated (keep versions/ but not pycache)
+alembic/__pycache__/
+alembic/versions/__pycache__/
+
+# Claude Code local state
+.claude/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Temp/downloaded files
+*.tmp
+*.temp
